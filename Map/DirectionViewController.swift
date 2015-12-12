@@ -68,7 +68,7 @@ class DirectionViewController: UIViewController {
     
     displayDirections(directions)
     
-    totalTimeLabel.text = "Total time: \(time.formatted())"
+    totalTimeLabel.text = "Total: \(time.formatted())"
   }
   
   func plotPolyLine(route: MKRoute) {
@@ -114,15 +114,13 @@ class DirectionViewController: UIViewController {
   // MARK: Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    navigationController?.navigationBarHidden = false
-    
+        
     showActivityIndicator()
     calculateSegmentDirections(0, time: 0, routes: [])
   }
   
   // MARK: Properties
-  var validLocations: [(address: String!, mapItem: MKMapItem!)]!
+  var validLocations: [(address: String, mapItem: MKMapItem)]!
   
   var activityIndicator: UIActivityIndicatorView?
   

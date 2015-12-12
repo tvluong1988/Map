@@ -8,25 +8,22 @@
 
 import UIKit
 import MapKit
-//import CoreLocation
-
 
 class ViewController: UIViewController {
   
   // MARK: Segues 
   override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-    if locationTuples[0].mapItem == nil ||
-      (locationTuples[1].mapItem == nil && locationTuples[2].mapItem == nil) {
-        showAlert("Please enter a valid starting and at least one destination.")
-        return false
+    if locationDataManager.areInputsValid() {
+      return true
     }
-    
-    return true
+
+    showAlert("Please enter a valid starting and at least one destination.")
+    return false
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == "ShowDirectionViewController", let directionVC = segue.destinationViewController as? DirectionViewController {
-      directionVC.validLocations = validLocations
+      directionVC.validLocations = locationDataManager.getValidLocations()
     }
   }
 
@@ -45,7 +42,7 @@ class ViewController: UIViewController {
   @IBAction func addressEntered(sender: UIButton) {
     view.endEditing(true)
     
-    let currentField = locationTuples[sender.tag].textField
+    let currentField = textFields[sender.tag]
     
     CLGeocoder().geocodeAddressString(currentField.text!) {
       placemarks, error in
@@ -59,7 +56,8 @@ class ViewController: UIViewController {
   
   @IBAction func swapButtonPressed(sender: UIButton) {
     swap(&destination1TextField.text, &destination2TextField.text)
-    swap(&locationTuples[1].mapItem, &locationTuples[2].mapItem)
+    swap(&locationDataManager.locations[1].address, &locationDataManager.locations[2].address)
+    swap(&locationDataManager.locations[1].mapItem, &locationDataManager.locations[2].mapItem)
     swap(&enterButtons.filter{$0.tag == 1}.first!.selected, &enterButtons.filter{$0.tag == 2}.first!.selected)
   }
   
@@ -112,49 +110,32 @@ class ViewController: UIViewController {
       }
     }
     
-    locationTuples = [(startingAddressTextField, nil), (destination1TextField, nil), (destination2TextField, nil)]
+    
+    if locationDataManager == nil {
+      locationDataManager = LocationDataManager()
+    }
+
   }
   
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    
-    navigationController?.navigationBarHidden = true
+        
   }
   
   // MARK: Properties
   var locationManager: CLLocationManager!
-  var locationTuples: [(textField: UITextField!, mapItem: MKMapItem!)]!
-  
-  var validLocations: [(address: String!, mapItem: MKMapItem!)]! {
-    var validTuples = locationTuples.filter{$0.mapItem != nil}
-    validTuples += [validTuples.first!]
-    
-    var resultTuples = [(address: String!, mapItem: MKMapItem!)]()
-    for validTuple in validTuples {
-      resultTuples.append((address: validTuple.textField.text, mapItem: validTuple.mapItem!))
-    }
-    
-    return resultTuples
-  }
+  var locationDataManager: LocationDataManager!
+
 }
 
 // MARK: AddressTableViewDelegate 
 extension ViewController: AddressTableViewDelegate {
-  func updateButtonSelected(tag: Int) {
-    enterButtons.filter{$0.tag == tag}.first!.selected = true
-  }
   
-  func updateTextFieldWithAddress(address: String, tag: Int) {
-    textFields.filter{$0.tag == tag}.first!.text = address
-  }
-  
-  func updateLocationTupleMapItem(mapItem: MKMapItem, tag: Int) {
-    for (index, locationTuple) in locationTuples.enumerate() {
-      if locationTuple.textField.tag == tag {
-        locationTuples[index].mapItem = mapItem
-        break
-      }
-    }
+  func updateLocationAtIndex(index: Int, address: String, mapItem: MKMapItem) {
+    enterButtons.filter{$0.tag == index}.first!.selected = true
+    textFields.filter{$0.tag == index}.first!.text = address
+    locationDataManager.updateLocationAtIndex(index, address: address, mapItem: mapItem)
+
   }
 }
 
@@ -166,8 +147,12 @@ extension ViewController: CLLocationManagerDelegate {
       if let placemarks = placemarks {
         let placemark = placemarks.first!
         
-        self.locationTuples[0].mapItem = MKMapItem(placemark: MKPlacemark(coordinate: placemark.location!.coordinate, addressDictionary: placemark.addressDictionary as! [String: AnyObject]?))
-        self.startingAddressTextField.text = self.formatAddressFromPlacemark(placemark)
+        let address = self.formatAddressFromPlacemark(placemark)
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: placemark.location!.coordinate, addressDictionary: placemark.addressDictionary as! [String: AnyObject]?))
+        
+        self.startingAddressTextField.text = address
+
+        self.locationDataManager.updateLocationAtIndex(0, address: address, mapItem: mapItem)
         
         self.enterButtons.filter{$0.tag == 0}.first!.selected = true
       }
@@ -175,18 +160,12 @@ extension ViewController: CLLocationManagerDelegate {
   }
   
   func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-    print(error)
+    print("Error with CLLocationManager: \(error)")
   }
 }
 
 // MARK: UITextFieldDelegate
 extension ViewController: UITextFieldDelegate {
-  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    
-    enterButtons.filter{$0.tag == textField.tag}.first!.selected = false
-    locationTuples[textField.tag].mapItem = nil
-    return true
-  }
   
   func textFieldShouldReturn(textField: UITextField) -> Bool {
     view.endEditing(true)
@@ -194,8 +173,23 @@ extension ViewController: UITextFieldDelegate {
     for textField in textFields {
       if textField.text!.isEmpty {
         enterButtons.filter{$0.tag == textField.tag}.first!.selected = false
+        
       }
     }
+    
+    return true
+  }
+  
+  func textFieldShouldClear(textField: UITextField) -> Bool {
+    enterButtons.filter{$0.tag == textField.tag}.first!.selected = false
+    locationDataManager.updateLocationAtIndex(textField.tag, address: nil, mapItem: nil)
+    
+    return true
+  }
+  
+  func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    enterButtons.filter{$0.tag == textField.tag}.first!.selected = false
+    locationDataManager.updateLocationAtIndex(textField.tag, address: nil, mapItem: nil)
     
     return true
   }

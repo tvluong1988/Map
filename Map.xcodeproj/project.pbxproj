@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BBC33F21C1C7B5A00720906 /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBC33F11C1C7B5A00720906 /* LocationDataManager.swift */; };
 		8BBE9D371C1B36CC000E22B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE9D361C1B36CC000E22B6 /* AppDelegate.swift */; };
 		8BBE9D391C1B36CC000E22B6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BBE9D381C1B36CC000E22B6 /* ViewController.swift */; };
 		8BBE9D3C1C1B36CC000E22B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BBE9D3A1C1B36CC000E22B6 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BBC33F11C1C7B5A00720906 /* LocationDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		8BBE9D331C1B36CC000E22B6 /* Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Map.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BBE9D361C1B36CC000E22B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BBE9D381C1B36CC000E22B6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8BBC33EF1C1C799200720906 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8BBE9D381C1B36CC000E22B6 /* ViewController.swift */,
+				8BBE9D651C1B3EF8000E22B6 /* DirectionViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		8BBC33F01C1C799800720906 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8BBE9D6D1C1B82A4000E22B6 /* AddressTableView.swift */,
+				8BBE9D691C1B4EAB000E22B6 /* DirectionTableView.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		8BBC33F31C1C9B9600720906 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8BBC33F11C1C7B5A00720906 /* LocationDataManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		8BBE9D2A1C1B36CC000E22B6 = {
 			isa = PBXGroup;
 			children = (
@@ -107,10 +135,9 @@
 		8BBE9D351C1B36CC000E22B6 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				8BBE9D381C1B36CC000E22B6 /* ViewController.swift */,
-				8BBE9D651C1B3EF8000E22B6 /* DirectionViewController.swift */,
-				8BBE9D6D1C1B82A4000E22B6 /* AddressTableView.swift */,
-				8BBE9D691C1B4EAB000E22B6 /* DirectionTableView.swift */,
+				8BBC33EF1C1C799200720906 /* Controller */,
+				8BBC33F01C1C799800720906 /* View */,
+				8BBC33F31C1C9B9600720906 /* Model */,
 				8BBE9D3A1C1B36CC000E22B6 /* Main.storyboard */,
 				8BBE9D641C1B3CA4000E22B6 /* Support */,
 			);
@@ -286,6 +313,7 @@
 				8BBE9D371C1B36CC000E22B6 /* AppDelegate.swift in Sources */,
 				8BBE9D661C1B3EF8000E22B6 /* DirectionViewController.swift in Sources */,
 				8BBE9D6E1C1B82A4000E22B6 /* AddressTableView.swift in Sources */,
+				8BBC33F21C1C7B5A00720906 /* LocationDataManager.swift in Sources */,
 				8BBE9D6A1C1B4EAB000E22B6 /* DirectionTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

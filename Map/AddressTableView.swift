@@ -10,9 +10,7 @@ import UIKit
 import MapKit
 
 protocol AddressTableViewDelegate: class {
-  func updateTextFieldWithAddress(address: String, tag: Int)
-  func updateLocationTupleMapItem(mapItem: MKMapItem, tag: Int)
-  func updateButtonSelected(tag: Int)
+  func updateLocationAtIndex(index: Int, address: String, mapItem: MKMapItem)
 }
 
 class AddressTableView: UITableView {
@@ -65,12 +63,9 @@ extension AddressTableView: UITableViewDelegate {
     let row = indexPath.row
     
     if row < addresses.count {
-      addressDelegate?.updateTextFieldWithAddress(addresses[row], tag: senderTag)
-      
       let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: placemarks[row].location!.coordinate, addressDictionary: placemarks[row].addressDictionary as! [String: AnyObject]?))
-      addressDelegate?.updateLocationTupleMapItem(mapItem, tag: senderTag)
       
-      addressDelegate?.updateButtonSelected(senderTag)
+      addressDelegate?.updateLocationAtIndex(senderTag, address: addresses[row], mapItem: mapItem)
     }
     
     removeFromSuperview()

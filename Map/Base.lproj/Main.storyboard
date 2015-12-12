@@ -145,7 +145,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="cil-mf-cn4"/>
+                    <navigationItem key="navigationItem" title="Trip" id="cil-mf-cn4"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="destination1TextField" destination="O6F-UQ-Hnj" id="H0p-Dw-tHl"/>
@@ -160,7 +160,7 @@
             </objects>
             <point key="canvasLocation" x="508" y="309"/>
         </scene>
-        <!--Direction View Controller-->
+        <!--Directions-->
         <scene sceneID="ePm-59-wWB">
             <objects>
                 <viewController id="Wxf-fl-Uba" customClass="DirectionViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
@@ -216,6 +216,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="joc-yG-yx3" secondAttribute="trailing" id="whl-Tu-Ug5"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Directions" id="4N4-fz-egq"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="directionTableView" destination="joc-yG-yx3" id="i55-dW-2iQ"/>
