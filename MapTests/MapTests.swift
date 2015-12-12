@@ -7,30 +7,84 @@
 //
 
 import XCTest
+import MapKit
 @testable import Map
 
 class MapTests: XCTestCase {
+  
+  // MARK: Tests
+  func testUpdatingNewLocation() {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    let index = 0
+    
+    var location = viewcontroller.locationDataManager.locations[index]
+    
+    XCTAssert(location.address == nil)
+    XCTAssert(location.mapItem == nil)
+    
+    viewcontroller.locationDataManager.updateLocationAtIndex(index, address: testAddress, mapItem: testMapItem)
+    
+    location = viewcontroller.locationDataManager.locations[index]
+    XCTAssert(location.address != nil)
+    XCTAssert(location.mapItem != nil)
+  }
+  
+  func testGetValidLocations() {
+    for index in 0..<2 {
+      viewcontroller.locationDataManager.updateLocationAtIndex(index, address: testAddress, mapItem: testMapItem)
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
+    var validLocations = viewcontroller.locationDataManager.getValidLocations()
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    XCTAssert(validLocations.count == 3)
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
+    viewcontroller.locationDataManager.updateLocationAtIndex(2, address: testAddress, mapItem: testMapItem)
+
+    validLocations = viewcontroller.locationDataManager.getValidLocations()
     
+    XCTAssert(validLocations.count == 4)
+    
+  }
+  
+  func testAreInputsValid() {
+    let locationDataManager = viewcontroller.locationDataManager
+    
+    XCTAssert(locationDataManager.areInputsValid() == false)
+    
+    locationDataManager.updateLocationAtIndex(0, address: testAddress, mapItem: testMapItem)
+    
+    XCTAssert(locationDataManager.areInputsValid() == false)
+    
+    locationDataManager.updateLocationAtIndex(1, address: testAddress, mapItem: testMapItem)
+    
+    XCTAssert(locationDataManager.areInputsValid() == true)
+    
+    locationDataManager.updateLocationAtIndex(2, address: testAddress, mapItem: testMapItem)
+    
+    XCTAssert(locationDataManager.areInputsValid() == true)
+    
+    locationDataManager.updateLocationAtIndex(0, address: nil, mapItem: nil)
+    
+    XCTAssert(locationDataManager.areInputsValid() == false)
+    
+  }
+  
+  // MARK: Lifecycle
+  override func setUp() {
+    super.setUp()
+    
+    viewcontroller = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+    viewcontroller.viewDidLoad()
+    directionViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("DirectionViewController") as! DirectionViewController
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+  }
+  
+  // MARK: Properties
+  var viewcontroller: ViewController!
+  var directionViewController: DirectionViewController!
+  let testAddress = "testAddress"
+  let testMapItem = MKMapItem()
 }

@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Map-->
+        <!--Trip-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Map" id="BYZ-38-t0r" customClass="ViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,7 +21,7 @@
                             <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop #1" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="O6F-UQ-Hnj">
                                 <rect key="frame" x="16" y="110" width="243" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Nav-zE-c0q"/>
                                 </connections>
@@ -29,7 +29,7 @@
                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop #2 (optional)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="DIt-6i-tiJ">
                                 <rect key="frame" x="16" y="186" width="243" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="OLs-FJ-WDS"/>
                                 </connections>
@@ -51,13 +51,14 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Start/End Point" textAlignment="natural" minimumFontSize="17" background="Stop 1" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Bqp-hd-K5I">
                                 <rect key="frame" x="16" y="72" width="243" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="Yop-aU-aCk"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azA-gb-pl3">
                                 <rect key="frame" x="267" y="110" width="37" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Destination1Enter"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="Mkw-nF-bl2"/>
                                     <constraint firstAttribute="width" constant="37" id="U9w-Kv-HqF"/>
@@ -77,6 +78,7 @@
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0d-wg-i8Y">
                                 <rect key="frame" x="267" y="186" width="37" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Destination2Enter"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="CLZ-1B-mfI"/>
                                     <constraint firstAttribute="width" constant="37" id="DOo-MT-OjI"/>
@@ -98,6 +100,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Obm-k7-2X2">
                                 <rect key="frame" x="267" y="72" width="37" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="StartEndEnter"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="lKp-IW-hZp"/>
                                 </constraints>
@@ -163,7 +166,7 @@
         <!--Directions-->
         <scene sceneID="ePm-59-wWB">
             <objects>
-                <viewController id="Wxf-fl-Uba" customClass="DirectionViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DirectionViewController" id="Wxf-fl-Uba" customClass="DirectionViewController" customModule="Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LiZ-tR-l2B"/>
                         <viewControllerLayoutGuide type="bottom" id="BkP-ME-vYK"/>
