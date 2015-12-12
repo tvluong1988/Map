@@ -11,7 +11,7 @@ import MapKit
 
 class ViewController: UIViewController {
   
-  // MARK: Segues 
+  // MARK: Segues
   override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
     if locationDataManager.areInputsValid() {
       return true
@@ -34,11 +34,19 @@ class ViewController: UIViewController {
   
   @IBOutlet var enterButtons: [UIButton]!
   
+  /// Array holding all textFields.
   var textFields: [UITextField!] {
     return [startingAddressTextField, destination1TextField, destination2TextField]
   }
   
   // MARK: Actions
+  
+  /**
+  Generate placemarks associated with user input and display them in a tableview for user to verify.
+  
+  - Parameter sender: Enter button that the user pressed.
+  
+  */
   @IBAction func addressEntered(sender: UIButton) {
     view.endEditing(true)
     
@@ -54,6 +62,12 @@ class ViewController: UIViewController {
     }
   }
   
+  /**
+  Swap the contents of destination1 and destination2. TextFields, Buttons, and LocationDataManager are updated.
+   
+  - Parameter sender: Swap button that the user pressed.
+   
+  */
   @IBAction func swapButtonPressed(sender: UIButton) {
     swap(&destination1TextField.text, &destination2TextField.text)
     swap(&locationDataManager.locations[1].address, &locationDataManager.locations[2].address)
@@ -61,10 +75,14 @@ class ViewController: UIViewController {
     swap(&enterButtons.filter{$0.tag == 1}.first!.selected, &enterButtons.filter{$0.tag == 2}.first!.selected)
   }
   
-  
-  
   // MARK: Functions
   
+  /**
+  Create and show AlertView
+  
+  - Parameter message: Message to display to user.
+  
+  */
   func showAlert(message: String) {
     let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
     let okButton = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
@@ -73,12 +91,27 @@ class ViewController: UIViewController {
     presentViewController(alert, animated: true, completion: nil)
   }
   
+  /**
+  Create a formatted string address from a placemark.
+   
+  - Parameter placemark: CLPlacemark.
+   
+  - Returns: Formatted address.
+   
+  */
   func formatAddressFromPlacemark(placemark: CLPlacemark) -> String {
     let strings = placemark.addressDictionary!["FormattedAddressLines"] as! [String]
     
     return strings.joinWithSeparator(", ")
   }
   
+  /**
+  Create and show an addressTableView to display placemarks for user to verify and select.
+   
+  - Parameter placemarks: An array of CLPlacemark.
+  - Parameter tag: Tag for identifying which textField the user is currently selecting.
+   
+  */
   func showAddressTable(placemarks: [CLPlacemark], tag: Int) {
     let addressTableView = AddressTableView(frame: UIScreen.mainScreen().bounds, style: .Plain)
     addressTableView.addressDelegate = self
@@ -123,7 +156,11 @@ class ViewController: UIViewController {
   }
   
   // MARK: Properties
+  
+  /// Help get location updates.
   var locationManager: CLLocationManager!
+  
+  /// Help organize location data.
   var locationDataManager: LocationDataManager!
 
 }
@@ -131,6 +168,14 @@ class ViewController: UIViewController {
 // MARK: AddressTableViewDelegate 
 extension ViewController: AddressTableViewDelegate {
   
+  /**
+   Update location with new address and mapItem.
+   
+   - Parameter index: Location index to be updated.
+   - Parameter address: New address.
+   - Parameter mapItem: MKMapItem associated with new address.
+   
+   */
   func updateLocationAtIndex(index: Int, address: String, mapItem: MKMapItem) {
     enterButtons.filter{$0.tag == index}.first!.selected = true
     textFields.filter{$0.tag == index}.first!.text = address

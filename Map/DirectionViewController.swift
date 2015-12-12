@@ -18,6 +18,13 @@ class DirectionViewController: UIViewController {
   @IBOutlet weak var totalTimeLabel: UILabel!
   
   // MARK: Functions
+  
+  /**
+  Update the directionTableView with directions.
+  
+  - Parameter directionArray: An array of tuples. Each tuple represents a trip segment containing the starting address, ending address, and MKRoute object.
+  
+  */
   func displayDirections(directionArray: [(startingAddress: String, endingAddress: String, route: MKRoute)]) {
     directionTableView.directionArray = directionArray
     
@@ -27,6 +34,14 @@ class DirectionViewController: UIViewController {
     directionTableView.reloadData()
   }
   
+  /**
+  Send a DirectionsRequest for each trip segment, finds the quickest complete route, and displays the route.
+   
+  - Parameter index: Index of the trip segment.
+  - Parameter time: Mutable aggregated total time of the entire trip.
+  - Parameter routes: Mutable array holding the aggregated MKRoute of the entire trip.
+   
+  */
   func calculateSegmentDirections(index: Int, var time: NSTimeInterval, var routes: [MKRoute]) {
     let request = MKDirectionsRequest()
     request.source = validLocations[index].mapItem
@@ -58,6 +73,13 @@ class DirectionViewController: UIViewController {
     }
   }
   
+  /**
+  Display the routes on the mapView and directionTableView, and total time label.
+   
+  - Parameter routes: The array of routes for the entire trip.
+  - Parameter time: Total time of the entire trip.
+   
+  */
   func showRoutes(routes: [MKRoute], time: NSTimeInterval) {
     var directions = [(startingAddress: String, endingAddress: String, route: MKRoute)]()
     for (index, route) in routes.enumerate() {
@@ -71,6 +93,12 @@ class DirectionViewController: UIViewController {
     totalTimeLabel.text = "Total: \(time.formatted())"
   }
   
+  /**
+  Add polyline to mapView and resize the mapView to accommodate all polylines.
+   
+  - Parameter route: MKRoute object holding the polyline.
+   
+  */
   func plotPolyLine(route: MKRoute) {
     mapView.addOverlay(route.polyline)
     
@@ -83,6 +111,12 @@ class DirectionViewController: UIViewController {
     }
   }
   
+  /**
+  Create and show an AlertView while popping the current viewcontroller.
+   
+  - Parameter message: Message to be displayed on the AlertView.
+   
+  */
   func showAlert(message: String) {
     let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
     
@@ -96,6 +130,9 @@ class DirectionViewController: UIViewController {
     presentViewController(alert, animated: true, completion: nil)
   }
   
+  /**
+  Add and show an activity indicator onscreen.
+  */
   func showActivityIndicator() {
     activityIndicator = UIActivityIndicatorView(frame: UIScreen.mainScreen().bounds)
     activityIndicator?.activityIndicatorViewStyle = .WhiteLarge
@@ -104,6 +141,9 @@ class DirectionViewController: UIViewController {
     view.addSubview(activityIndicator!)
   }
   
+  /**
+  Hide and remove an activity indicator.
+  */
   func hideActivityIndicator() {
     if activityIndicator != nil {
       activityIndicator?.removeFromSuperview()
@@ -112,6 +152,8 @@ class DirectionViewController: UIViewController {
   }
   
   // MARK: Lifecycle
+  
+  /// Display activity indicator while calculating directions.
   override func viewDidLoad() {
     super.viewDidLoad()
         
@@ -120,8 +162,11 @@ class DirectionViewController: UIViewController {
   }
   
   // MARK: Properties
+  
+  /// Locations to request directions for a round trip.
   var validLocations: [(address: String, mapItem: MKMapItem)]!
   
+  /// Activity indicator to show user while getting directions.
   var activityIndicator: UIActivityIndicatorView?
   
 }

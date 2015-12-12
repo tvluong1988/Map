@@ -9,10 +9,21 @@
 import UIKit
 import MapKit
 
+// MARK: AddressTableViewDelegate
 protocol AddressTableViewDelegate: class {
+  
+  /**
+  Update location with new address and mapItem.
+   
+  - Parameter index: Location index to be updated.
+  - Parameter address: New address.
+  - Parameter mapItem: MKMapItem associated with new address.
+   
+  */
   func updateLocationAtIndex(index: Int, address: String, mapItem: MKMapItem)
 }
 
+/// TableView showing addresses to validate user input and generate valid MKMapItem.
 class AddressTableView: UITableView {
   
   // MARK: Delegates
@@ -33,8 +44,14 @@ class AddressTableView: UITableView {
   }
   
   // MARK: Properties
+  
+  /// Valid addresses displayed to user.
   var addresses: [String]!
+  
+  /// Valid placemarks associated with valid addresses.
   var placemarks: [CLPlacemark]!
+  
+  /// Tag to identify location for delegate to update with new address and placemark.
   var senderTag: Int!
 }
 

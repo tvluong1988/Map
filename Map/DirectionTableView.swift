@@ -9,13 +9,13 @@
 import UIKit
 import MapKit
 
-/// DirectionTableView
+/// TableView to show directions.
 class DirectionTableView: UITableView {
   
   
   // MARK: Properties
   
-  /// Hold list of directions.
+  /// Hold list of directions to be displayed.
   var directionArray: [(startingAddress: String, endingAddress: String, route: MKRoute)]!
   
 }
@@ -89,6 +89,13 @@ extension DirectionTableView: UITableViewDelegate {
     return label
   }
   
+  /**
+  Set the background color for specified UILabel according to tableview section.
+  
+  - Parameter label: UILabel to have its background color set.
+  - Parameter section: Tableview section number.
+   
+  */
   private func setLabelBackgroundColor(label: UILabel, section: Int) {
     switch section {
     case 0:
@@ -101,7 +108,15 @@ extension DirectionTableView: UITableViewDelegate {
   }
 }
 
+// MARK: NSTimeInterval Extension
 extension NSTimeInterval {
+  
+  /** 
+  Convert to String, Hours, Minutes, Seconds format.
+   
+  - Returns: Formatted string.
+   
+  */
   func formatted() -> String {
     let formatter = NSDateComponentsFormatter()
     formatter.unitsStyle = .Full
@@ -111,13 +126,29 @@ extension NSTimeInterval {
   }
 }
 
+// MARK: Float Extension
 extension Float {
+  /**
+  Convert String format.
+   
+  - Parameter f: Float string to be formatted.
+   
+  - Returns: Formatted string.
+  */
   func format(f: String) -> String {
     return NSString(format: "%\(f)f", self) as String
   }
 }
 
+// MARK: CLLocationDistance Extension
 extension CLLocationDistance {
+  
+  /**
+  Convert to miles.
+   
+  - Returns: Distance in terms of miles as string.
+   
+  */
   func miles() -> String {
     let miles = Float(self)/1609.344
     return miles.format(".2")
