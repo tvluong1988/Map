@@ -1,1 +1,1 @@
-![Assets/Simulation.gif](Assets/Simulation.gif?raw=1)
+![Simulation.gif](Simulation.gif?raw=1)
